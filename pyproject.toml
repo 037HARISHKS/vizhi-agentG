@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vizhi-agentg"
+version = "0.1.0"
+description = "Vizhi on-site agent for local inference and cloud orchestration"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115",
+  "httpx>=0.27",
+  "pydantic>=2.8",
+  "uvicorn[standard]>=0.30",
+  "websockets>=12.0",
+]
+
+[project.scripts]
+vizhi-agentg = "vizhi_agentg.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

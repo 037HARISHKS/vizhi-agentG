@@ -1,3 +1,15 @@
+Metadata-Version: 2.4
+Name: vizhi-agentg
+Version: 0.1.0
+Summary: Vizhi on-site agent for local inference and cloud orchestration
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115
+Requires-Dist: httpx>=0.27
+Requires-Dist: pydantic>=2.8
+Requires-Dist: uvicorn[standard]>=0.30
+Requires-Dist: websockets>=12.0
+
 # vizhi-agentG
 
 `vizhi-agentG` is the on-site agent for Vizhi. It runs locally on a workstation or server, proxies cloud jobs to a local LLM engine, and exposes a small local dashboard for setup and monitoring.
@@ -51,10 +63,3 @@ The agent sends these headers on every protected backend call:
 
 - `X-Agent-CID`
 - `X-Agent-Token`
-
-The dashboard only asks for:
-
-- Agent CID
-- Agent API key
-- Engine choice
-- Model name
