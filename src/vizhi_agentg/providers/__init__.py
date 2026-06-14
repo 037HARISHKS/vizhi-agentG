@@ -10,3 +10,4 @@ def build_provider(provider_type: str, endpoint: str, model: str = "") -> LocalI
     if key == "ollama":
         return OllamaProvider(endpoint=endpoint, model=model)
     return OpenAICompatibleProvider(endpoint=endpoint, model=model)
+

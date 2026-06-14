@@ -25,7 +25,7 @@ class JobStatus(str, Enum):
 class EngineConfig(BaseModel):
     name: str = Field(min_length=1)
     endpoint: str = Field(min_length=1)
-    provider_type: ProviderType = ProviderType.ollama
+    provider_type: ProviderType = ProviderType.lm_studio
     model: str = ""
     enabled: bool = True
 
@@ -40,7 +40,7 @@ class AgentConfig(BaseModel):
     register_path: str = "/agents/register"
     heartbeat_path: str = "/agents/heartbeat"
     submit_path: str = "/jobs/submit"
-    poll_interval_idle: int = 15
+    poll_interval_idle: int = 7
     poll_interval_busy: int = 3
     dashboard_host: str = "127.0.0.1"
     dashboard_port: int = 8080

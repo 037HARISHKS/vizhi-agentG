@@ -1,6 +1,7 @@
 README.md
 pyproject.toml
 src/vizhi_agentg/__init__.py
+src/vizhi_agentg/db_models.py
 src/vizhi_agentg/main.py
 src/vizhi_agentg/models.py
 src/vizhi_agentg/storage.py

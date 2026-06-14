@@ -39,3 +39,6 @@ class OpenAICompatibleProvider(LocalInferenceProvider):
             response = await client.post(f"{self.endpoint}/v1/embeddings", json=payload)
             response.raise_for_status()
             return response.json()
+
+
+
