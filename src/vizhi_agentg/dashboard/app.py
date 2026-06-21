@@ -5,6 +5,7 @@ import json
 
 from aiohttp import web
 
+from .._defaults import DEFAULT_BACKEND_URL
 from ..models import AgentConfig, EngineConfig
 from ..storage import SQLiteStore
 from ..worker import AgentRuntime
@@ -424,7 +425,7 @@ def build_dashboard_app() -> web.Application:
             merged = cfg.model_dump(mode="json")
             merged.update(payload)
             merged["device_name"] = ""
-            merged["backend_url"] = "http://127.0.0.1:8000"
+            merged["backend_url"] = merged.get("backend_url", DEFAULT_BACKEND_URL)
             merged["poll_interval_idle"] = int(merged.get("poll_interval_idle", cfg.poll_interval_idle))
             merged["poll_interval_busy"] = int(merged.get("poll_interval_busy", cfg.poll_interval_busy))
             merged["dashboard_port"] = int(merged.get("dashboard_port", cfg.dashboard_port))

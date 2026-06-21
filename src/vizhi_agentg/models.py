@@ -6,6 +6,8 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
+from ._defaults import DEFAULT_BACKEND_URL
+
 
 class ProviderType(str, Enum):
     ollama = "ollama"
@@ -34,7 +36,7 @@ class AgentConfig(BaseModel):
     agent_id: str = "agent-local"
     agent_api_key: str = ""
     device_name: str = ""
-    backend_url: str = "http://127.0.0.1:8000"
+    backend_url: str = DEFAULT_BACKEND_URL
     ws_path: str = "/ws/agent"
     jobs_path: str = "/jobs/next"
     register_path: str = "/agents/register"
