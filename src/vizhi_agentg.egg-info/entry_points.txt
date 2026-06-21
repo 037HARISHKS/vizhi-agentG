@@ -1,0 +1,2 @@
+[console_scripts]
+vizhi-agentg = vizhi_agentg.main:main
