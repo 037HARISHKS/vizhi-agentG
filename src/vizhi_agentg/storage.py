@@ -7,6 +7,7 @@ Uses SQLite via SQLAlchemy so the schema can be evolved with migrations
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -20,6 +21,7 @@ from .db_models import (
     build_engine,
     build_session_factory,
 )
+from ._defaults import resolve_backend_url
 from .models import AgentConfig
 
 
@@ -62,8 +64,12 @@ class SQLiteStore:
                 select(ConfigEntry).where(ConfigEntry.key == "agent_config")
             ).scalar_one_or_none()
         if row is None:
-            return AgentConfig()
-        return AgentConfig.model_validate(json.loads(row.value))
+            config = AgentConfig()
+            config.backend_url = resolve_backend_url()
+            return config
+        config = AgentConfig.model_validate(json.loads(row.value))
+        config.backend_url = resolve_backend_url()
+        return config
 
     def save_config(self, config: AgentConfig) -> None:
         blob = json.dumps(config.model_dump(mode="json"))

@@ -1,9 +1,11 @@
 README.md
 pyproject.toml
 src/vizhi_agentg/__init__.py
+src/vizhi_agentg/_defaults.py
 src/vizhi_agentg/db_models.py
 src/vizhi_agentg/main.py
 src/vizhi_agentg/models.py
+src/vizhi_agentg/service.py
 src/vizhi_agentg/storage.py
 src/vizhi_agentg/worker.py
 src/vizhi_agentg.egg-info/PKG-INFO
@@ -16,6 +18,10 @@ src/vizhi_agentg/cloud/__init__.py
 src/vizhi_agentg/cloud/client.py
 src/vizhi_agentg/dashboard/__init__.py
 src/vizhi_agentg/dashboard/app.py
+src/vizhi_agentg/dashboard/app_new.py
+src/vizhi_agentg/dashboard/static/app.css
+src/vizhi_agentg/dashboard/static/app.js
+src/vizhi_agentg/dashboard/static/index.html
 src/vizhi_agentg/providers/__init__.py
 src/vizhi_agentg/providers/base.py
 src/vizhi_agentg/providers/ollama.py

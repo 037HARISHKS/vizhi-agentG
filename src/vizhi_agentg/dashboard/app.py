@@ -5,7 +5,7 @@ import json
 
 from aiohttp import web
 
-from .._defaults import DEFAULT_BACKEND_URL
+from .._defaults import resolve_backend_url
 from ..models import AgentConfig, EngineConfig
 from ..storage import SQLiteStore
 from ..worker import AgentRuntime
@@ -425,7 +425,8 @@ def build_dashboard_app() -> web.Application:
             merged = cfg.model_dump(mode="json")
             merged.update(payload)
             merged["device_name"] = ""
-            merged["backend_url"] = merged.get("backend_url", DEFAULT_BACKEND_URL)
+            merged.pop("backend_url", None)
+            merged["backend_url"] = resolve_backend_url()
             merged["poll_interval_idle"] = int(merged.get("poll_interval_idle", cfg.poll_interval_idle))
             merged["poll_interval_busy"] = int(merged.get("poll_interval_busy", cfg.poll_interval_busy))
             merged["dashboard_port"] = int(merged.get("dashboard_port", cfg.dashboard_port))
@@ -437,7 +438,10 @@ def build_dashboard_app() -> web.Application:
             engines = []
             for engine in cfg.engines:
                 data = engine.model_dump(mode="json")
-                if engine.name.lower() == default_engine.lower():
+                # Normalize engine names: remove spaces and compare
+                engine_name_normalized = engine.name.lower().replace(" ", "_")
+                default_engine_normalized = default_engine.lower().replace(" ", "_")
+                if engine_name_normalized == default_engine_normalized:
                     data["model"] = engine_model or data["model"]
                 engines.append(data)
             merged["engines"] = engines
@@ -457,9 +461,15 @@ def build_dashboard_app() -> web.Application:
 
     async def api_test_engine(request: web.Request) -> web.Response:
         try:
-            result = await runtime.test_engine(state["config"].default_engine)
+            latest_config = store.load_config()
+            runtime.update_config(latest_config)
+            state["config"] = latest_config
+            await runtime.stop()
+            result = await runtime.test_engine(latest_config.default_engine)
+            await runtime.start()
             return web.json_response({"ok": True, "result": result})
         except Exception as exc:
+            await runtime.start()
             return web.json_response({"ok": False, "error": str(exc)}, status=500)
 
     async def api_jobs(request: web.Request) -> web.Response:
